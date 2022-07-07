@@ -5,7 +5,7 @@ import numpy as np
 from models.VGGNet import VGG11
 # from models.vision_transformer import ViT
 # from models.swin_transfrmer import SwinTransformer
-from pildataset import PILDataset
+from cv2dataset import CV2Dataset
 from torch.utils.data import DataLoader
 
 
@@ -20,9 +20,9 @@ def train(opt):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # device = torch.device('mps')    # mac M1使用'mps' or 'cpu
     # 定义数据集
-    train_data = PILDataset(path_train, img_size)
+    train_data = CV2Dataset(path_train, img_size)
     train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True, num_workers=nw)
-    val_data = PILDataset(path_val, img_size)
+    val_data = CV2Dataset(path_val, img_size)
     val_loader = DataLoader(dataset=val_data, batch_size=batch_size, shuffle=False, num_workers=nw)
     # 定义网络
     model = VGG11().to(device)
@@ -102,7 +102,7 @@ def val(opt, model=None, val_loader=None):
         model.load_state_dict(torch.load(model_path)['model'])
         nd = torch.cuda.device_count()  # number of CUDA devices
         nw = min([os.cpu_count() // max(nd, 1), batch_size if batch_size > 1 else 0, workers])  # number of workers
-        val_data = PILDataset(path_val, img_size)
+        val_data = CV2Dataset(path_val, img_size)
         val_loader = DataLoader(dataset=val_data, batch_size=batch_size, shuffle=False, num_workers=nw)
     model.eval()
     val_acc_sum, n = 0.0, 0
