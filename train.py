@@ -1,7 +1,6 @@
 import os
 import torch
 import argparse
-import numpy as np
 from models import creat_model
 from cv2dataset import CV2Dataset
 from torch.utils.data import DataLoader
@@ -117,7 +116,7 @@ def parse_opt(known=False):
     parser = argparse.ArgumentParser()
     parser.add_argument('--path_train', type=str, default='E:/DataSources/DogsAndCats/train', help='')
     parser.add_argument('--path_val', type=str, default='E:/DataSources/DogsAndCats/val', help='')
-    parser.add_argument('--name', type=str, default='VGG11', help='VGG11, ViT, Swin')
+    parser.add_argument('--name', type=str, default='ViT', help='VGG11, ViT, Swin')
     parser.add_argument('--resume', type=bool, default=False)
     parser.add_argument('--model_dir', type=str, default='./weights')
     parser.add_argument('--model_end', type=str, default='model_end.pt')
@@ -126,7 +125,7 @@ def parse_opt(known=False):
     parser.add_argument('--epochs', type=int, default=20)
     parser.add_argument('--start_epoch', type=int, default=0)
     parser.add_argument('--eval_epoch', type=int, default=1)
-    parser.add_argument('--lr', type=float, default=0.00001)
+    parser.add_argument('--lr', type=float, default=0.000001)
     parser.add_argument('--img_size', type=int, default=224, help='train, val image size (pixels)')
     parser.add_argument('--batch_size', type=int, default=4, help='total batch size for all GPUs, -1 for autobatch')
     parser.add_argument('--workers', type=int, default=0, help='max dataloader workers (per RANK in DDP mode)')
