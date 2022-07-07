@@ -2,9 +2,7 @@ import os
 import torch
 import argparse
 import numpy as np
-from models.VGGNet import VGG11
-# from models.vision_transformer import ViT
-# from models.swin_transfrmer import SwinTransformer
+from models import creat_model
 from cv2dataset import CV2Dataset
 from torch.utils.data import DataLoader
 
@@ -25,9 +23,7 @@ def train(opt):
     val_data = CV2Dataset(path_val, img_size)
     val_loader = DataLoader(dataset=val_data, batch_size=batch_size, shuffle=False, num_workers=nw)
     # 定义网络
-    model = VGG11().to(device)
-    # model = ViT(num_classes=1, emb_dropout=0.1).to(device)
-    # model = SwinTransformer(num_classes=1).to(device)
+    model = creat_model(opt.name).to(device)
     # 定义优化器
     optim = torch.optim.Adam(params=model.parameters(), lr=lr, betas=(0.5, 0.999))
     # 定义损失函数
@@ -97,8 +93,7 @@ def val(opt, model=None, val_loader=None):
         model_path = os.path.join(model_dir, model_last)
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         # device = torch.device('mps')    # mac M1使用'mps' or 'cpu
-        model = VGG11().to(device)
-        # model = SwinTransformer(num_classes=1).to(device)
+        model = creat_model(opt.name).to(device)
         model.load_state_dict(torch.load(model_path)['model'])
         nd = torch.cuda.device_count()  # number of CUDA devices
         nw = min([os.cpu_count() // max(nd, 1), batch_size if batch_size > 1 else 0, workers])  # number of workers
@@ -120,8 +115,9 @@ def val(opt, model=None, val_loader=None):
 
 def parse_opt(known=False):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path_train', type=str, default='E:/DataSources/DogsAndCats/train', help='dataset.yaml path')
-    parser.add_argument('--path_val', type=str, default='E:/DataSources/DogsAndCats/val', help='dataset.yaml path')
+    parser.add_argument('--path_train', type=str, default='E:/DataSources/DogsAndCats/train', help='')
+    parser.add_argument('--path_val', type=str, default='E:/DataSources/DogsAndCats/val', help='')
+    parser.add_argument('--name', type=str, default='VGG11')
     parser.add_argument('--resume', type=bool, default=False)
     parser.add_argument('--model_dir', type=str, default='./weights')
     parser.add_argument('--model_end', type=str, default='model_end.pt')
