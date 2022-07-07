@@ -56,7 +56,6 @@ class CV2Dataset(Dataset):
         data = data / 255               # 0-255 -> 0-1
         # data = (data - 0.5) / 0.5     # 0-1 -> -1-1
         data = np.float32(data)
-        print(data.shape)
         return data, label
 
     def __len__(self):

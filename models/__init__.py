@@ -7,7 +7,7 @@ model_exist = ["VGG11", "ViT", "Swin"]
 
 
 def creat_model(name: str) -> nn.Module:
-    assert name in model_exist
+    assert name in model_exist, "模型名称使用错误"
     if name == "VGG11":
         model = VGG11()
     elif name == "ViT":

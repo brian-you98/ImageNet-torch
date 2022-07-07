@@ -117,7 +117,7 @@ def parse_opt(known=False):
     parser = argparse.ArgumentParser()
     parser.add_argument('--path_train', type=str, default='E:/DataSources/DogsAndCats/train', help='')
     parser.add_argument('--path_val', type=str, default='E:/DataSources/DogsAndCats/val', help='')
-    parser.add_argument('--name', type=str, default='VGG11')
+    parser.add_argument('--name', type=str, default='VGG11', help='VGG11, ViT, Swin')
     parser.add_argument('--resume', type=bool, default=False)
     parser.add_argument('--model_dir', type=str, default='./weights')
     parser.add_argument('--model_end', type=str, default='model_end.pt')
